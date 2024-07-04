@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import os
 from PIL import Image
+import base64
 
 # Verificar si el archivo existe en el directorio
 file_path = 'reglamento.xlsx'
@@ -41,9 +42,17 @@ else:
     st.title("ALOHA Virtual")
     st.write("Bienvenido al Chatbot ALOHA Virtual, ¿en qué puedo ayudarte hoy?")
 
-    # Botón con imagen de robot
-    robot_image = Image.open("robot.png")
-    if st.button(label='Haz clic para iniciar el chat', help="Haz clic para iniciar el chat"):
+    # Function to encode image to base64
+    def img_to_bytes(img_path):
+        with open(img_path, "rb") as img_file:
+            return base64.b64encode(img_file.read()).decode()
+
+    # Encode the image to base64
+    img_bytes = img_to_bytes("robot.png")
+    img_html = f'<img src="data:image/png;base64,{img_bytes}" style="height: 50px; width: 50px;">'
+
+    # Use st.markdown to create a button with an image
+    if st.markdown(f'<button>{img_html}</button>', unsafe_allow_html=True):
         # Mostrar el chat
         if 'chat_history' not in st.session_state:
             st.session_state.chat_history = []  # Lista para almacenar el historial de mensajes
@@ -59,24 +68,18 @@ else:
                 else:
                     st.chat_message(mensaje)
 
-        while True:
-            # Entrada del usuario
-            pregunta = st.chat_input(placeholder="Escribe tu pregunta:")
-            
-            if pregunta:
-                # Verificar si la pregunta es 'fin' para terminar el chat
-                if pregunta.lower() == 'fin':
-                    st.write("Chat finalizado.")
-                    break
+        # Entrada del usuario y botón para enviar la pregunta
+        pregunta = st.text_input("Escribe tu pregunta:").lower()
+        
+        if st.button("Enviar"):
+            if pregunta == 'fin':
+                st.write("Chat finalizado.")
+            else:
+                # Mostrar la pregunta del usuario
+                mostrar_mensaje(pregunta, es_usuario=True)
 
-                # Botón para enviar la pregunta
-                if st.button("Enviar"):
-                    # Mostrar la pregunta del usuario
-                    mostrar_mensaje(pregunta, es_usuario=True)
+                # Obtener la respuesta
+                respuesta = obtener_respuesta(pregunta)
 
-                    # Obtener la respuesta
-                    respuesta = obtener_respuesta(pregunta)
-
-                    # Mostrar la respuesta
-                    mostrar_mensaje(respuesta)
-
+                # Mostrar la respuesta
+                mostrar_mensaje(respuesta)
