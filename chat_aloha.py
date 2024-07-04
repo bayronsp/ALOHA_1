@@ -43,32 +43,33 @@ else:
 
     # Button con imagen de robot
     robot_image = Image.open("robot.png")
-    if st.button(label="", help="Haz clic para iniciar el chat"):
-        # Mostrar el chat
-        if 'chat_history' not in st.session_state:
-            st.session_state.chat_history = []  # Lista para almacenar el historial de mensajes
+    while pregunta != 'fin':
+        if st.button(label=robot_image, help="Haz clic para iniciar el chat"):
+            # Mostrar el chat
+            if 'chat_history' not in st.session_state:
+                st.session_state.chat_history = []  # Lista para almacenar el historial de mensajes
 
-        def mostrar_mensaje(mensaje, es_usuario=False):
-            # Agregar mensaje al historial
-            st.session_state.chat_history.append((mensaje, es_usuario))
+            def mostrar_mensaje(mensaje, es_usuario=False):
+                # Agregar mensaje al historial
+                st.session_state.chat_history.append((mensaje, es_usuario))
 
-            # Mostrar el historial de mensajes
-            for mensaje, es_usuario in st.session_state.chat_history:
-                if es_usuario:
-                    st.chat_message(mensaje, is_user=True)
-                else:
-                    st.chat_message(mensaje)
+                # Mostrar el historial de mensajes
+                for mensaje, es_usuario in st.session_state.chat_history:
+                    if es_usuario:
+                        st.chat_message(mensaje, is_user=True)
+                    else:
+                        st.chat_message(mensaje)
 
-        # Entrada del usuario
-        pregunta = st.chat_input(placeholder="Escribe tu pregunta:")
+            # Entrada del usuario
+            pregunta = st.chat_input(placeholder="Escribe tu pregunta:").lower()
 
-        # Botón para enviar la pregunta
-        if st.button("Enviar"):
-            # Mostrar la pregunta del usuario
-            mostrar_mensaje(pregunta, es_usuario=True)
+            # Botón para enviar la pregunta
+            if st.button("Enviar"):
+                # Mostrar la pregunta del usuario
+                mostrar_mensaje(pregunta, es_usuario=True)
 
-            # Obtener la respuesta
-            respuesta = obtener_respuesta(pregunta)
+                # Obtener la respuesta
+                respuesta = obtener_respuesta(pregunta)
 
-            # Mostrar la respuesta
-            mostrar_mensaje(respuesta)
+                # Mostrar la respuesta
+                mostrar_mensaje(respuesta)
