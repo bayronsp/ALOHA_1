@@ -45,7 +45,7 @@ else:
     robot_image = Image.open("robot.png")
     pregunta =''
     while pregunta != 'fin':
-        if st.button(label=robot_image, help="Haz clic para iniciar el chat"):
+        if st.button(label='AAAAAAAA', help="Haz clic para iniciar el chat"):
             # Mostrar el chat
             if 'chat_history' not in st.session_state:
                 st.session_state.chat_history = []  # Lista para almacenar el historial de mensajes
