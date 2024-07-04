@@ -42,7 +42,7 @@ else:
     st.write("Bienvenido al Chatbot ALOHA Virtual, ¿en qué puedo ayudarte hoy?")
 
     # Button con imagen de robot
-    robot_image = Image.open("robot.aviff")
+    robot_image = Image.open("robot.png")
     if st.button(label="", help="Haz clic para iniciar el chat"):
         # Mostrar el chat
         if 'chat_history' not in st.session_state:
