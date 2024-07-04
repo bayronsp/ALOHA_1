@@ -43,6 +43,7 @@ else:
 
     # Button con imagen de robot
     robot_image = Image.open("robot.png")
+    pregunta =''
     while pregunta != 'fin':
         if st.button(label=robot_image, help="Haz clic para iniciar el chat"):
             # Mostrar el chat
