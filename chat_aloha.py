@@ -40,8 +40,13 @@ else:
     st.title("ALOHA Virtual")
     st.write("Bienvenido al Chatbot ALOHA Virtual, ¿en qué puedo ayudarte hoy?")
 
+    # Inicializar el historial de chat en la sesión
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []  # Lista para almacenar el historial de mensajes
+
+    # Inicializar el texto del input en la sesión
+    if 'user_input' not in st.session_state:
+        st.session_state.user_input = ""  # Texto del campo de entrada
 
     # Mostrar el historial de mensajes
     for mensaje, es_usuario in st.session_state.chat_history:
@@ -50,18 +55,23 @@ else:
         else:
             st.write(f"**Bot:** {mensaje}")
 
-    # Entrada del usuario y botón para enviar la pregunta
-    pregunta = st.text_input("Escribe tu pregunta:")
+    # Entrada del usuario con sesión de estado
+    pregunta = st.text_input("Escribe tu pregunta:", key="user_input")
     
+    # Botón para enviar la pregunta
     if st.button("Enviar"):
-        if pregunta.lower() == 'fin':
-            st.write("Chat finalizado.")
-        else:
-            # Mostrar la pregunta del usuario
-            st.session_state.chat_history.append((pregunta, True))
+        if pregunta.strip():  # Verificar que no esté vacío
+            if pregunta.lower() == 'fin':
+                st.write("Chat finalizado.")
+            else:
+                # Agregar la pregunta del usuario al historial
+                st.session_state.chat_history.append((pregunta, True))
 
-            # Obtener la respuesta
-            respuesta = obtener_respuesta(pregunta)
+                # Obtener la respuesta del bot
+                respuesta = obtener_respuesta(pregunta)
 
-            # Mostrar la respuesta
-            st.session_state.chat_history.append((respuesta, False))
+                # Agregar la respuesta al historial
+                st.session_state.chat_history.append((respuesta, False))
+
+            # Limpiar el campo de texto
+            st.session_state.user_input = ""
