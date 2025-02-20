@@ -65,4 +65,4 @@ else:
 
             # Mostrar la respuesta
             st.session_state.chat_history.append((respuesta, False))
-            st.experimental_rerun()
+            st.experimental_set_query_params(updated="true")
