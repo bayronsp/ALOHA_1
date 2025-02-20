@@ -65,4 +65,3 @@ else:
 
             # Mostrar la respuesta
             st.session_state.chat_history.append((respuesta, False))
-            st.query_params(updated="true")
