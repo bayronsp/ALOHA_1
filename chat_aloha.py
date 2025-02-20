@@ -44,6 +44,10 @@ else:
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []  # Lista para almacenar el historial de mensajes
 
+    # Inicializar el input del usuario en session_state
+    if 'user_input' not in st.session_state:
+        st.session_state.user_input = ""  # Campo vacío inicial
+
     # Mostrar el historial de mensajes
     for mensaje, es_usuario in st.session_state.chat_history:
         if es_usuario:
@@ -53,7 +57,7 @@ else:
 
     # Formulario para enviar la pregunta
     with st.form(key="form_pregunta"):
-        pregunta = st.text_input("Escribe tu pregunta:", key="user_input")
+        pregunta = st.text_input("Escribe tu pregunta:", value=st.session_state.user_input, key="user_input")
         enviar = st.form_submit_button("Enviar")  # Botón para enviar
 
         if enviar:
