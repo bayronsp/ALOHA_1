@@ -44,10 +44,6 @@ else:
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []  # Lista para almacenar el historial de mensajes
 
-    # Inicializar el texto del input en la sesión
-    if 'user_input' not in st.session_state:
-        st.session_state.user_input = ""  # Texto del campo de entrada
-
     # Mostrar el historial de mensajes
     for mensaje, es_usuario in st.session_state.chat_history:
         if es_usuario:
@@ -55,23 +51,24 @@ else:
         else:
             st.write(f"**Bot:** {mensaje}")
 
-    # Entrada del usuario con sesión de estado
-    pregunta = st.text_input("Escribe tu pregunta:", key="user_input")
-    
-    # Botón para enviar la pregunta
-    if st.button("Enviar"):
-        if pregunta.strip():  # Verificar que no esté vacío
-            if pregunta.lower() == 'fin':
-                st.write("Chat finalizado.")
-            else:
-                # Agregar la pregunta del usuario al historial
-                st.session_state.chat_history.append((pregunta, True))
+    # Formulario para enviar la pregunta
+    with st.form(key="form_pregunta"):
+        pregunta = st.text_input("Escribe tu pregunta:", key="user_input")
+        enviar = st.form_submit_button("Enviar")  # Botón para enviar
 
-                # Obtener la respuesta del bot
-                respuesta = obtener_respuesta(pregunta)
+        if enviar:
+            if pregunta.strip():  # Verificar que no esté vacío
+                if pregunta.lower() == 'fin':
+                    st.write("Chat finalizado.")
+                else:
+                    # Agregar la pregunta del usuario al historial
+                    st.session_state.chat_history.append((pregunta, True))
 
-                # Agregar la respuesta al historial
-                st.session_state.chat_history.append((respuesta, False))
+                    # Obtener la respuesta del bot
+                    respuesta = obtener_respuesta(pregunta)
 
-            # Limpiar el campo de texto
-            st.session_state.user_input = ""
+                    # Agregar la respuesta al historial
+                    st.session_state.chat_history.append((respuesta, False))
+
+                # Limpiar el campo de texto después de enviar
+                st.session_state.user_input = ""
