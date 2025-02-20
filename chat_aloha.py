@@ -73,6 +73,3 @@ else:
 
                     # Agregar la respuesta al historial
                     st.session_state.chat_history.append((respuesta, False))
-
-                # Limpiar el campo de texto después de enviar
-                st.session_state.user_input = ""
